@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Collaborative Canvas</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div id="app" class="theme-dark">
+        <!-- Floating toolbar -->
+        <div class="toolbar">
+            <div class="toolbar-top">
+                <div class="app-brand">
+                    <div class="logo">CC</div>
+                    <div class="title">Collaborative Canvas</div>
+                </div>
+                <div class="room-badge">Room: <span id="room-name">demo-room</span></div>
+            </div>
+            <div class="tool-group">
+                <button class="tool-btn active" data-tool="brush">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" />
+                        <path
+                            d="M20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                    </svg>
+                    <span>Brush</span>
+                </button>
+                <button class="tool-btn" data-tool="eraser">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 20H7L3 16l8-8 8 8-4 4m0-12l4-4 4 4-4 4-4-4z" />
+                    </svg>
+                    <span>Eraser</span>
+                </button>
+                <input type="color" id="color" value="#000000" class="color-picker" title="Choose Color" />
+            </div>
+
+            <div class="tool-group">
+                <div class="width-control">
+                    <input type="range" id="width" min="1" max="40" value="4" />
+                    <div class="width-preview"></div>
+                    <span class="width-value" id="width-value">4 px</span>
+                </div>
+            </div>
+
+            <div class="tool-group">
+                <button class="tool-btn" id="undo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 7v6h6" />
+                        <path d="M3 13c0-4.97 4.03-9 9-9 4.97 0 9 4.03 9 9s-4.03 9-9 9c-2.49 0-4.74-1.01-6.36-2.64" />
+                    </svg>
+                </button>
+                <button class="tool-btn" id="redo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 7v6h-6" />
+                        <path d="M21 13c0-4.97-4.03-9-9-9-4.97 0-9 4.03-9 9s4.03 9 9 9c2.49 0 4.74-1.01 6.36-2.64" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Users panel -->
+        <aside class="users-panel">
+            <div class="panel-header">
+                <h2>Collaborators</h2>
+                <span class="online-count"></span>
+            </div>
+            <ul id="users"></ul>
+        </aside>
+
+        <main class="canvas-wrap">
+            <header class="canvas-header">
+                <div class="canvas-title">Canvas Room: <strong id="canvas-room">demo-room</strong></div>
+                <div class="canvas-actions">
+                    <button class="ghost" id="save-btn">Save</button>
+                    <button class="ghost" id="join-btn">Join Room</button>
+                </div>
+            </header>
+            <canvas id="main-canvas"></canvas>
+            <canvas id="overlay-canvas"></canvas>
+        </main>
+
+        <!-- Theme toggle -->
+        <button class="theme-toggle" title="Toggle Theme">
+            <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <circle cx="12" cy="12" r="5" />
+                <line x1="12" y1="1" x2="12" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="3" y2="12" />
+                <line x1="21" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+            <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+        </button>
+    </div>
+
+    <select id="tool" class="hidden">
+        <option value="brush">Brush</option>
+        <option value="eraser">Eraser</option>
+    </select>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="websocket.js"></script>
+    <script src="canvas.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
